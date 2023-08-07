@@ -76,6 +76,12 @@ private static void menuUnidade() {
                 listarUnidades();
                 break;
             case 3:
+//              atualizarUnidade()
+                break;
+                case 4:
+//                deletarUnidade();
+                break;
+            case 5:
                 sair = true;
                 break;
             default:
@@ -89,7 +95,9 @@ private static void menuUnidade() {
         System.out.println("\n--- Menu Unidade ---");
         System.out.println("1 - Adicionar Unidade");
         System.out.println("2 - Listar Unidades");
-        System.out.println("3 - Voltar ao menu principal");
+        System.out.println("3 - Atualizar Unidade");
+        System.out.println("4 - Deletar Unidade");
+        System.out.println("5 - Voltar ao menu principal");
         System.out.print("Escolha uma opção: ");
     }
 
