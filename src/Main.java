@@ -81,7 +81,6 @@ private static void menuUnidade() {
             default:
                 System.out.println("Opção inválida. Tente novamente.");
                 break;
-
         }
     }
 }
