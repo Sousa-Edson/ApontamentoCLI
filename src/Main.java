@@ -53,43 +53,78 @@ public class Main {
 
     private static void exibirMenuPrincipal() {
         System.out.println("\n--- Menu Principal ---");
-//        System.out.println("Selecione uma opção:");
-        System.out.println("1 - Mexer com Produto");
-        System.out.println("2 - Mexer com Unidade");
+        System.out.println("1 - Produto");
+        System.out.println("2 - Unidade");
         System.out.println("3 - Gerar Relatório");
         System.out.println("4 - Sair");
     }
-// UNIDADE
-private static void menuUnidade() {
-    boolean sair = false;
 
-    while (!sair) {
-        exibirMenuUnidade();
-        int opcao = scanner.nextInt();
-        scanner.nextLine(); // Limpar o buffer do scanner
+    // INICIO UNIDADE
+    private static void menuUnidade() {
+        boolean sair = false;
 
-        switch (opcao) {
-            case 1:
-                adicionarUnidade();
-                break;
-            case 2:
-                listarUnidades();
-                break;
-            case 3:
-//              atualizarUnidade()
-                break;
+        while (!sair) {
+            exibirMenuUnidade();
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer do scanner
+
+            switch (opcao) {
+                case 1:
+                    adicionarUnidade();
+                    break;
+                case 2:
+                    listarUnidades();
+                    break;
+                case 3:
+                    atualizarUnidade();
+                    break;
                 case 4:
-//                deletarUnidade();
-                break;
-            case 5:
-                sair = true;
-                break;
-            default:
-                System.out.println("Opção inválida. Tente novamente.");
-                break;
+                    deletarUnidade();
+                    break;
+                case 5:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+                    break;
+            }
         }
     }
-}
+
+    private static void atualizarUnidade() {
+        System.out.println("\n--- Atualizar Unidade ---");
+
+        System.out.print("Digite o codigo da unidade: ");
+        int codigo = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Digite o novo nome da unidade: ");
+        String novoNome = scanner.nextLine();
+
+        System.out.print("Digite o novo símbolo da unidade: ");
+        String novoSimbolo = scanner.nextLine();
+
+        for (Unidade unidade : listaUnidades) {
+            if (unidade.getCodigo() == codigo) {
+                unidade.setNome(novoNome);
+                unidade.setSimbolo(novoSimbolo);
+                break;
+            }
+        }
+    }
+
+    private static void deletarUnidade() {
+        System.out.println("\n--- Deletar Unidade ---");
+        System.out.print("Digite o codigo da unidade: ");
+        int codigo = scanner.nextInt();
+        for (Unidade unidade : listaUnidades) {
+            if (unidade.getCodigo() == codigo) {
+                listaUnidades.remove(unidade);
+                System.out.println("Codigo : " + codigo + " apagado");
+                break;
+            }
+        }
+    }
 
     private static void exibirMenuUnidade() {
         System.out.println("\n--- Menu Unidade ---");
@@ -120,5 +155,5 @@ private static void menuUnidade() {
             System.out.println("Codigo: " + unidade.getCodigo() + ", Nome: " + unidade.getNome() + ", Símbolo: " + unidade.getSimbolo());
         }
     }
-
+//FIM UNIDADE
 }

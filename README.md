@@ -17,4 +17,4 @@ Essa aplicação é voltada para gestores de estoque e equipes responsáveis pel
 2. Execute a aplicação através do terminal ou prompt de comando, seguindo as opções e comandos fornecidos pela interface de linha de comando.
 3. Siga as orientações apresentadas na CLI para interagir com o sistema, cadastrar produtos, registrar movimentações e obter relatórios.
 
-Agradeco o interesse e a contribuição para este projeto. Sinta-se à vontade para enviar feedbacks, relatar problemas ou propor melhorias. Juntos, podemos tornar o ApontamentoCLI uma ferramenta ainda mais poderosa para gerenciamento de estoques.
+Agradeço o interesse e a contribuição para este projeto. Sinta-se à vontade para enviar feedbacks, relatar problemas ou propor melhorias. Juntos, podemos tornar o ApontamentoCLI uma ferramenta ainda mais poderosa para gerenciamento de estoques.
