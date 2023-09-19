@@ -11,7 +11,13 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto( String nome, int quantidade,Unidade unidade) {
+    public Produto(String nome, Unidade unidade) {
+        this.codigo = ++contador;
+        this.nome = nome;
+        this.unidade = unidade;
+    }
+
+    public Produto(String nome, int quantidade, Unidade unidade) {
         this.codigo = ++contador;
         this.nome = nome;
         this.quantidade = quantidade;

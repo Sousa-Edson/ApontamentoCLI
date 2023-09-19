@@ -37,8 +37,8 @@ public class Main {
                     menuUnidade();
                     break;
                 case 3:
-                    // Lógica para gerar relatório
-                    System.out.println("Você selecionou a opção Relatório.");
+                    // Lógica para movimento
+                    menuMovimento();
                     break;
                 case 4:
                     // Sair do menu
@@ -58,7 +58,7 @@ public class Main {
         System.out.println("\n--- Menu Principal ---");
         System.out.println("1 - Produto");
         System.out.println("2 - Unidade");
-        System.out.println("3 - Gerar Relatório");
+        System.out.println("3 - Gerar Movimento");
         System.out.println("4 - Sair");
     }
 
@@ -105,72 +105,76 @@ public class Main {
         System.out.print("Escolha uma opção: ");
     }
 
-    private static void preencheProduto(){
-        listaProdutos.add(new Produto("café", 23,unidade = encontrarUnidadePorId(1)));
-        listaProdutos.add(new Produto("arroz", 34,unidade = encontrarUnidadePorId(2)));
-        listaProdutos.add(new Produto("açucar", 56,unidade = encontrarUnidadePorId(3)));
-        listaProdutos.add(new Produto("sal", 89,unidade = encontrarUnidadePorId(4)));
+    private static void preencheProduto() {
+        listaProdutos.add(new Produto("café", 23, unidade = encontrarUnidadePorId(1)));
+        listaProdutos.add(new Produto("arroz", 34, unidade = encontrarUnidadePorId(2)));
+        listaProdutos.add(new Produto("açucar", 56, unidade = encontrarUnidadePorId(3)));
+        listaProdutos.add(new Produto("sal", 89, unidade = encontrarUnidadePorId(4)));
     }
+
     private static void adicionarProduto() {
         System.out.println("\n--- Adicionar Produto ---");
         System.out.print("Digite o nome do produto: ");
         String nome = scanner.nextLine();
 
+        listarUnidades();
+
         System.out.print("Digite a unidade do produto: ");
         int un = scanner.nextInt();
-         unidade = encontrarUnidadePorId(un);
+        unidade = encontrarUnidadePorId(un);
 
-        System.out.print("Digite a quantidade do produto: ");
-        int quantidade = scanner.nextInt();
-
-        Produto produto = new Produto(nome,quantidade,unidade);
+        Produto produto = new Produto(nome, unidade);
         listaProdutos.add(produto);
-        System.out.println("Unidade adicionada com sucesso!");
+        System.out.println("Produto adicionado com sucesso!");
     }
 
     private static void listarProdutos() {
-        System.out.println("\n--- Listagem de Unidades ---");
+        System.out.println("\n--- Listagem de Produtos ---");
         for (Produto produto : listaProdutos) {
-            System.out.println("Codigo: " + produto.getCodigo() + ", Nome: " + produto.getNome() + ", Quantidade: " + produto.getQuantidade());
-            System.out.println("string: "+produto.toString());
+            System.out.println("Codigo: " + produto.getCodigo() + ", Nome: " + produto.getNome() + ", Un: " + produto.getUnidade().getSimbolo() + ", Quantidade: " + produto.getQuantidade());
         }
     }
 
     private static void atualizarProduto() {
         System.out.println("\n--- Atualizar Produto ---");
 
-//        System.out.print("Digite o codigo da unidade: ");
-//        int codigo = scanner.nextInt();
-//        scanner.nextLine();
-//
-//        System.out.print("Digite o novo nome da unidade: ");
-//        String novoNome = scanner.nextLine();
-//
-//        System.out.print("Digite o novo símbolo da unidade: ");
-//        String novoSimbolo = scanner.nextLine();
-//
-//        for (Unidade unidade : listaUnidades) {
-//            if (unidade.getCodigo() == codigo) {
-//                unidade.setNome(novoNome);
-//                unidade.setSimbolo(novoSimbolo);
-//                break;
-//            }
-//        }
+        System.out.print("Digite o id do produto: ");
+        int codigo = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Digite o nome do produto: ");
+        String novoNome = scanner.nextLine();
+
+        listarUnidades();
+
+        System.out.print("Digite a unidade do produto: ");
+        int un = scanner.nextInt();
+        unidade = encontrarUnidadePorId(un);
+
+        for (Produto produto : listaProdutos) {
+            if (produto.getCodigo() == codigo) {
+                produto.setNome(novoNome);
+                produto.setUnidade(unidade);
+                break;
+            }
+        }
+
+        System.out.println("Produto adicionado com sucesso!");
     }
 
     private static void deletarProduto() {
         System.out.println("\n--- Deletar Produto ---");
-//        System.out.print("Digite o codigo da unidade: ");
-//        int codigo = scanner.nextInt();
-//        for (Unidade unidade : listaUnidades) {
-//            if (unidade.getCodigo() == codigo) {
-//                listaUnidades.remove(unidade);
-//                System.out.println("Codigo : " + codigo + " apagado");
-//                break;
-//            }
-//        }
-    }
 
+        System.out.print("Digite o id do produto: ");
+        int codigo = scanner.nextInt();
+
+        for (Produto produto : listaProdutos) {
+            if (produto.getCodigo() == codigo) {
+                listaProdutos.remove(produto);
+                System.out.println("Codigo : " + codigo + " apagado");
+                break;
+            }
+        }
+    }
 
 
 //FIM PRODUTO
@@ -217,12 +221,14 @@ public class Main {
         System.out.println("5 - Voltar ao menu principal");
         System.out.print("Escolha uma opção: ");
     }
-private static void preencheUnidade(){
-    listaUnidades.add(new Unidade("unidade", "un"));
-    listaUnidades.add(new Unidade("exemplares", "exs"));
-    listaUnidades.add(new Unidade("kilo", "kg"));
-    listaUnidades.add(new Unidade("pacote", "pct"));
-}
+
+    private static void preencheUnidade() {
+        listaUnidades.add(new Unidade("unidade", "un"));
+        listaUnidades.add(new Unidade("exemplares", "exs"));
+        listaUnidades.add(new Unidade("kilo", "kg"));
+        listaUnidades.add(new Unidade("pacote", "pct"));
+    }
+
     private static void adicionarUnidade() {
         System.out.println("\n--- Adicionar Unidade ---");
         System.out.print("Digite o nome da unidade: ");
@@ -279,7 +285,6 @@ private static void preencheUnidade(){
     }
 
     private static Unidade encontrarUnidadePorId(int codigo) {
-        System.out.println("\n--- Encontrar Unidade por id ---");
         Unidade u = new Unidade();
         for (Unidade unidade : listaUnidades) {
             if (unidade.getCodigo() == codigo) {
@@ -287,8 +292,49 @@ private static void preencheUnidade(){
                 break;
             }
         }
-        return  u;
+        return u;
     }
 
 //FIM UNIDADE
+
+    // INICIO UNIDADE
+    private static void menuMovimento() {
+        boolean sair = false;
+
+        while (!sair) {
+            exibirMenuMovimento();
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer do scanner
+
+            switch (opcao) {
+                case 1:
+//                    adicionarUnidade();
+                    break;
+                case 2:
+//                    listarUnidades();
+                    break;
+                case 3:
+//                    atualizarUnidade();
+                    break;
+                case 4:
+//                    deletarUnidade();
+                    break;
+                case 5:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+                    break;
+            }
+        }
+    }
+    private static void exibirMenuMovimento() {
+        System.out.println("\n--- Menu Movimento ---");
+        System.out.println("1 - Adicionar Movimento");
+        System.out.println("2 - Listar Movimentos");
+        System.out.println("3 - Atualizar Movimento");
+        System.out.println("4 - Deletar Movimento");
+        System.out.println("5 - Voltar ao menu principal");
+        System.out.print("Escolha uma opção: ");
+    }
 }
