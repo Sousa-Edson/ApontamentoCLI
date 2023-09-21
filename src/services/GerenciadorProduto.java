@@ -1,7 +1,6 @@
 package services;
 
 import model.Produto;
-import model.Unidade;
 
 import java.util.Scanner;
 
