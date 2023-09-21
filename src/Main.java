@@ -1,8 +1,7 @@
+import menu.MenuMovimentacao;
 import menu.MenuProduto;
 import menu.MenuUnidade;
 import services.GerenciadorEstoque;
-import services.GerenciadorProduto;
-
 import java.util.Scanner;
 
 public class Main {
@@ -30,7 +29,7 @@ public class Main {
                         MenuProduto.menuProduto();
                         break;
                     case 3:
-
+                        MenuMovimentacao.menuMovimentacao();
                         break;
                     case 4:
 
@@ -50,7 +49,7 @@ public class Main {
             System.out.println("\n--- Menu Principal ---");
             System.out.println("1 - Unidades");
             System.out.println("2 - Produtos");
-            System.out.println("3 - Movimentos");
+            System.out.println("3 - Movimentações");
             System.out.println("4 - Buscar");
             System.out.println("5 - Sair");
             System.out.print("Escolha uma opção: ");
