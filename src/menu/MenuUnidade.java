@@ -1,14 +1,13 @@
 package menu;
 
-import model.Unidade;
-import services.GerenciadorEstoque;
+
 import services.GerenciadorUnidade;
 
 import java.util.Scanner;
 
 public class MenuUnidade {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void menuUnidade() {
         boolean sair = false;
