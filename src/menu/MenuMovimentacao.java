@@ -1,6 +1,8 @@
 package menu;
 
 
+import services.GerenciadorMovimentacao;
+
 import java.util.Scanner;
 
 public class MenuMovimentacao {
@@ -17,10 +19,10 @@ public class MenuMovimentacao {
 
             switch (opcao) {
                 case 1:
-//                    GerenciadorMovimentacao.adicionarMovimentacao();
+                    GerenciadorMovimentacao.adicionarMovimentacao();
                     break;
                 case 2:
-//                    GerenciadorMovimentacao.listarMovimentacaos();
+                    GerenciadorMovimentacao.listarMovimentacaos();
                     break;
                 case 3:
 //                    GerenciadorMovimentacao.atualizarMovimentacao();

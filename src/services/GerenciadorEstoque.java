@@ -1,5 +1,6 @@
 package services;
 
+import model.Movimentacao;
 import model.Produto;
 import model.Unidade;
 
@@ -10,6 +11,8 @@ public interface GerenciadorEstoque {
     List<Unidade> unidades = new ArrayList<>();
 
     List<Produto> produtos = new ArrayList<>();
+
+    List<Movimentacao> movimentacoes = new ArrayList<>();
 
 
     public  static void preencheUnidade() {
