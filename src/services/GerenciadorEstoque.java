@@ -1,5 +1,6 @@
 package services;
 
+import enums.TipoMovimento;
 import model.Movimentacao;
 import model.Produto;
 import model.Unidade;
@@ -23,10 +24,23 @@ public interface GerenciadorEstoque {
     }
 
     public static void preencheProduto() {
-        produtos.add(new Produto("café", 23, GerenciadorUnidade.encontrarUnidadePorId(1)));
-        produtos.add(new Produto("arroz", 34, GerenciadorUnidade.encontrarUnidadePorId(2)));
-        produtos.add(new Produto("açucar", 56, GerenciadorUnidade.encontrarUnidadePorId(3)));
-        produtos.add(new Produto("sal", 89, GerenciadorUnidade.encontrarUnidadePorId(4)));
+        produtos.add(new Produto("café",   GerenciadorUnidade.encontrarUnidadePorId(1)));
+        produtos.add(new Produto("arroz",   GerenciadorUnidade.encontrarUnidadePorId(2)));
+        produtos.add(new Produto("açucar",  GerenciadorUnidade.encontrarUnidadePorId(3)));
+        produtos.add(new Produto("sal",   GerenciadorUnidade.encontrarUnidadePorId(4)));
     }
+
+    public static void preencheMovimento() {
+        movimentacoes.add(new Movimentacao(TipoMovimento.ENTRADA,   GerenciadorProduto.encontrarProdutoPorId(1),159));
+        movimentacoes.add(new Movimentacao(TipoMovimento.SAIDA,   GerenciadorProduto.encontrarProdutoPorId(1),98));
+        movimentacoes.add(new Movimentacao(TipoMovimento.ENTRADA,   GerenciadorProduto.encontrarProdutoPorId(2),900));
+        movimentacoes.add(new Movimentacao(TipoMovimento.ENTRADA,   GerenciadorProduto.encontrarProdutoPorId(2),120));
+
+        movimentacoes.add(new Movimentacao(TipoMovimento.ENTRADA,   GerenciadorProduto.encontrarProdutoPorId(3),200));
+        movimentacoes.add(new Movimentacao(TipoMovimento.SAIDA,   GerenciadorProduto.encontrarProdutoPorId(3),77));
+        movimentacoes.add(new Movimentacao(TipoMovimento.SAIDA,   GerenciadorProduto.encontrarProdutoPorId(2),24));
+        movimentacoes.add(new Movimentacao(TipoMovimento.ENTRADA,   GerenciadorProduto.encontrarProdutoPorId(4),450));
+    }
+
 
 }
