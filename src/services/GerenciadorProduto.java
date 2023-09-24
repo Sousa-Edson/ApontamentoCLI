@@ -18,8 +18,12 @@ public class GerenciadorProduto implements GerenciadorEstoque {
         System.out.print("\nDigite o codigo da unidade:");
         int codigoUnidade = scanner.nextInt();
         scanner.nextLine();
-        produtos.add(new Produto(nome, GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade)));
-        System.out.println("\n *** Produto adicionada com sucesso! *** ");
+        if (GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade) != null) {
+            produtos.add(new Produto(nome, GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade)));
+            System.out.println("\n *** Produto adicionada com sucesso! *** ");
+        } else {
+            System.err.println(" *** Erro ao adicionar produto! *** ");
+        }
     }
 
     public static void listarProdutos() {
