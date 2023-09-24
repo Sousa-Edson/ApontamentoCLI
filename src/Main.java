@@ -1,5 +1,6 @@
 import menu.MenuMovimentacao;
 import menu.MenuProduto;
+import menu.MenuSaldo;
 import menu.MenuUnidade;
 import services.GerenciadorEstoque;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class Main {
 
             GerenciadorEstoque.preencheUnidade();
             GerenciadorEstoque.preencheProduto();
+            GerenciadorEstoque.preencheMovimento();
 
             boolean sair = false;
 
@@ -32,7 +34,7 @@ public class Main {
                         MenuMovimentacao.menuMovimentacao();
                         break;
                     case 4:
-
+                        MenuSaldo.menuSaldo();
                         break;
                     case 5:
                         sair = true;
@@ -45,7 +47,7 @@ public class Main {
         }
 
         private static void exibirMenuPrincipal() {
-            System.out.println("\n### Bem vindo ao ApontamentoCLI ###\n");
+            System.out.println("\n### Bem vindo ao ApontamentoCLI ###");
             System.out.println("\n--- Menu Principal ---");
             System.out.println("1 - Unidades");
             System.out.println("2 - Produtos");
