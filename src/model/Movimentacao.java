@@ -1,18 +1,26 @@
 package model;
 
+import enums.TipoMovimento;
+
 public class Movimentacao {
     private static int contador = 0;
     int codigo;
+    TipoMovimento tipoMovimento;
     Produto produto;
     int quantidade;
 
     public Movimentacao() {
     }
 
-    public Movimentacao(Produto produto, int quantidade) {
+    public Movimentacao(TipoMovimento tipoMovimento,Produto produto, int quantidade) {
         this.codigo = ++contador;
+        this.tipoMovimento = tipoMovimento;
         this.produto = produto;
         this.quantidade = quantidade;
+    }
+
+    public TipoMovimento getTipoMovimento() {
+        return tipoMovimento;
     }
 
     public int getCodigo() {
