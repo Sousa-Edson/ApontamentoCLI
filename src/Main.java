@@ -3,6 +3,7 @@ import menu.MenuProduto;
 import menu.MenuSaldo;
 import menu.MenuUnidade;
 import services.GerenciadorEstoque;
+
 import java.util.Scanner;
 
 public class Main {
@@ -10,11 +11,12 @@ public class Main {
 
         private static final Scanner scanner = new Scanner(System.in);
 
+
         public static void main(String[] args) {
 
-            GerenciadorEstoque.preencheUnidade();
-            GerenciadorEstoque.preencheProduto();
-            GerenciadorEstoque.preencheMovimento();
+//            GerenciadorEstoque.preencheUnidade();
+//            GerenciadorEstoque.preencheProduto();
+//            GerenciadorEstoque.preencheMovimento();
 
             boolean sair = false;
 

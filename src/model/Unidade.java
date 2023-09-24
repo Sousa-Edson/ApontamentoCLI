@@ -1,7 +1,6 @@
 package model;
 
 public class Unidade {
-    private static int contador = 0;
     int codigo;
     String nome;
     String simbolo;
@@ -10,8 +9,13 @@ public class Unidade {
     public Unidade() {
     }
 
-    public Unidade(String nome,String simbolo) {
-        this.codigo = ++contador;
+    public Unidade(String nome, String simbolo) {
+        this.nome = nome;
+        this.simbolo = simbolo;
+    }
+
+    public Unidade(int codigo, String nome, String simbolo) {
+        this.codigo = codigo;
         this.nome = nome;
         this.simbolo = simbolo;
     }

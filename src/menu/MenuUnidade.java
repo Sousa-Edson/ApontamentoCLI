@@ -3,13 +3,15 @@ package menu;
 
 import services.GerenciadorUnidade;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MenuUnidade {
 
     private static final Scanner scanner = new Scanner(System.in);
-
     public static void menuUnidade() {
+        GerenciadorUnidade gerenciadorUnidade = new GerenciadorUnidade();
+
         boolean sair = false;
 
         while (!sair) {
@@ -19,7 +21,12 @@ public class MenuUnidade {
 
             switch (opcao) {
                 case 1:
-                    GerenciadorUnidade.adicionarUnidade();
+                    try {
+                        gerenciadorUnidade.adicionarUnidade();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 2:
                     GerenciadorUnidade.listarUnidades();
