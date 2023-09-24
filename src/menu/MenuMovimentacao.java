@@ -44,8 +44,6 @@ public class MenuMovimentacao {
         System.out.println("\n--- Menu movimentacao ---");
         System.out.println("1 - Adicionar movimentacao");
         System.out.println("2 - Listar movimentacaos");
-        System.out.println("3 - Atualizar movimentacao");
-        System.out.println("4 - Deletar movimentacao");
         System.out.println("5 - Voltar ao menu principal");
         System.out.print("Escolha uma opção: ");
     }
