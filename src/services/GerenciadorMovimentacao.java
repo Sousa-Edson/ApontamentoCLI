@@ -1,15 +1,35 @@
 package services;
 
+import enums.TipoMovimento;
 import model.Movimentacao;
 import model.Produto;
 
 import java.util.Scanner;
+
+import static enums.TipoMovimento.ENTRADA;
+import static enums.TipoMovimento.SAIDA;
 
 
 public class GerenciadorMovimentacao implements GerenciadorEstoque {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void adicionarMovimentacao() {
+        TipoMovimento movimento = null;
+        System.out.print("Selecione o tipo de movimentação\n1:Entrada\n2:Saida\nInsira aqui:");
+        int tipo = scanner.nextInt();
+        switch (tipo) {
+            case 1:
+                movimento = ENTRADA;
+                break;
+            case 2:
+                movimento = TipoMovimento.SAIDA;
+                break;
+            default:
+                movimento = ENTRADA;
+                System.out.println("Opção inválida.");
+                break;
+        }
+
         System.out.println("\n--- Adicionar movimentacao ---");
         boolean sair = false;
         int codigoProduto = 0;
@@ -29,16 +49,18 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
         int quantidadeItem = scanner.nextInt();
         scanner.nextLine();
 
-        Produto produto = new Produto();
-        produto.setCodigo(codigoProduto);
-        movimentacoes.add(new Movimentacao(produto, quantidadeItem));
-        System.out.println("\n *** Movimentacao adicionada com sucesso! *** ");
+        if (GerenciadorProduto.encontrarProdutoPorId(codigoProduto) != null) {
+            movimentacoes.add(new Movimentacao(movimento, GerenciadorProduto.encontrarProdutoPorId(codigoProduto), quantidadeItem));
+            System.out.println("\n *** Movimentacao adicionada com sucesso! *** ");
+        } else {
+            System.err.println("*** Erro ao adicionar movemento! *** ");
+        }
     }
 
     public static void listarMovimentacaos() {
         System.out.println("\n--- Lista de movimentacaos ---");
         for (Movimentacao movimentacao : movimentacoes) {
-            System.out.println("# " + movimentacao.getCodigo() + " Nome: " + movimentacao.getProduto() + ", Quantidade: " + movimentacao.getQuantidade());
+            System.out.println("# " + movimentacao.getCodigo() + " Tipo:" + movimentacao.getTipoMovimento().tipo() + " Nome: " + movimentacao.getProduto().getNome() + " Un: " + movimentacao.getProduto().getUnidade().getSimbolo() + ", Quantidade: " + movimentacao.getQuantidade());
         }
     }
 
@@ -99,5 +121,26 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
             }
         }
         return null;
+    }
+
+    public static void saldoProduto(int codigoProduto) {
+        int quantidadeEntrada = 0, quantidadeSaida = 0, saldoFinal = 0;
+        System.out.println("\n--- Saldo do produto " + codigoProduto + " ---");
+        for (Movimentacao movimentacao : movimentacoes) {
+            if (movimentacao.getProduto().getCodigo() == codigoProduto) {
+                if (movimentacao.getTipoMovimento().equals(ENTRADA)) {
+                    quantidadeEntrada = quantidadeEntrada + movimentacao.getQuantidade();
+                }
+                if (movimentacao.getTipoMovimento().equals(SAIDA)) {
+                    quantidadeSaida = quantidadeSaida + movimentacao.getQuantidade();
+                }
+            }
+        }
+        saldoFinal = quantidadeEntrada - quantidadeSaida;
+        System.out.println("Produto: " + GerenciadorProduto.encontrarProdutoPorId(codigoProduto).getNome());
+        System.out.println("Un: " + GerenciadorProduto.encontrarProdutoPorId(codigoProduto).getUnidade().getSimbolo());
+        System.out.println("Entradas: " + quantidadeEntrada);
+        System.out.println("Saidas: " + quantidadeSaida);
+        System.out.println("Saldo final: " + saldoFinal);
     }
 }
