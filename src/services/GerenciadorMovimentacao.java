@@ -2,7 +2,6 @@ package services;
 
 import enums.TipoMovimento;
 import model.Movimentacao;
-import model.Produto;
 
 import java.util.Scanner;
 
@@ -11,10 +10,10 @@ import static enums.TipoMovimento.SAIDA;
 
 
 public class GerenciadorMovimentacao implements GerenciadorEstoque {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void adicionarMovimentacao() {
-        TipoMovimento movimento = null;
+        TipoMovimento movimento;
         System.out.print("Selecione o tipo de movimentação\n1:Entrada\n2:Saida\nInsira aqui:");
         int tipo = scanner.nextInt();
         switch (tipo) {
@@ -38,8 +37,7 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
             codigoProduto = scanner.nextInt();
             if (codigoProduto == 0) {
                 GerenciadorProduto.listarProdutos();
-                System.out.println("");
-                sair = false;
+                System.out.println();
             } else {
                 sair = true;
             }
@@ -64,67 +62,9 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
         }
     }
 
-    public static void atualizarMovimentacao() {
-        System.out.println("\n--- Atualizar movimentacao ---");
-
-        System.out.print("Digite o codigo da movimentacao:");
-        int codigo = scanner.nextInt();
-
-        if (GerenciadorMovimentacao.encontrarMovimentacaoPorId(codigo) != null) {
-            scanner.nextLine();
-
-            System.out.print("Digite o nome da movimentacao:");
-            String nome = scanner.nextLine();
-
-            GerenciadorUnidade.listarUnidades();
-
-            System.out.print("\nDigite o codigo da unidade:");
-            int codigoUnidade = scanner.nextInt();
-
-            scanner.nextLine();
-
-            for (Movimentacao movimentacao : movimentacoes) {
-                if (movimentacao.getCodigo() == codigo) {
-
-                    if (!nome.isEmpty()) {
-//                        movimentacao.setNome(nome);
-                    }
-
-//                    movimentacao.setUnidade(GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade));
-
-                    System.out.println("\n *** Movimentacao alterada com sucesso! *** ");
-                    break;
-                }
-            }
-        } else {
-            System.out.println("Movimentacao não encontrada");
-        }
-    }
-
-    public static void deletarMovimentacao() {
-        System.out.println("\n--- Deletar Movimentacao ---");
-        System.out.print("Digite o codigo da movimentacao: ");
-        int codigo = scanner.nextInt();
-        for (Movimentacao movimentacao : movimentacoes) {
-            if (movimentacao.getCodigo() == codigo) {
-                movimentacoes.remove(movimentacao);
-                System.out.println("\n*** Codigo : " + codigo + " apagado ***");
-                break;
-            }
-        }
-    }
-
-    public static Movimentacao encontrarMovimentacaoPorId(int codigo) {
-        for (Movimentacao movimentacao : movimentacoes) {
-            if (movimentacao.getCodigo() == codigo) {
-                return movimentacao;
-            }
-        }
-        return null;
-    }
 
     public static void saldoProduto(int codigoProduto) {
-        int quantidadeEntrada = 0, quantidadeSaida = 0, saldoFinal = 0;
+        int quantidadeEntrada = 0, quantidadeSaida = 0, saldoFinal;
         System.out.println("\n--- Saldo do produto " + codigoProduto + " ---");
         for (Movimentacao movimentacao : movimentacoes) {
             if (movimentacao.getProduto().getCodigo() == codigoProduto) {
