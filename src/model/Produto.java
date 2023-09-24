@@ -4,7 +4,7 @@ public class Produto {
     private static int contador = 0;
     int codigo;
     String nome;
-    int quantidade;
+
 
     Unidade unidade;
 
@@ -17,12 +17,6 @@ public class Produto {
         this.unidade = unidade;
     }
 
-    public Produto(String nome, int quantidade, Unidade unidade) {
-        this.codigo = ++contador;
-        this.nome = nome;
-        this.quantidade = quantidade;
-        this.unidade = unidade;
-    }
 
     public int getCodigo() {
         return codigo;
@@ -48,20 +42,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
     @Override
     public String toString() {
         return "Produto{" +
                 "codigo=" + codigo +
                 ", nome='" + nome + '\'' +
-                ", quantidade=" + quantidade +
                 ", unidade=" + unidade +
                 '}';
     }
