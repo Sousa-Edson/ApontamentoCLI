@@ -3,6 +3,7 @@ package dao;
 import enums.TipoMovimento;
 import model.Movimentacao;
 import model.Produto;
+import model.Unidade;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,9 +35,10 @@ public class MovimentacaoDAO {
     // Método para listar todas as movimentações do banco de dados
     public List<Movimentacao> listarMovimentacoes() throws SQLException {
         List<Movimentacao> movimentacoes = new ArrayList<>();
-        String sql = "SELECT m.*, p.nome AS nome_produto, p.unidade_id, p.codigo AS codigo_produto " +
+        String sql = "SELECT m.*, p.nome AS nome_produto, p.unidade_id,u.sigla ,u.nome ,p.codigo AS codigo_produto " +
                 "FROM movimentacoes m " +
-                "INNER JOIN produtos p ON m.produto_id = p.codigo";
+                "INNER JOIN produtos p ON m.produto_id = p.codigo "
+                + "INNER JOIN unidades u ON p.unidade_id = u.codigo";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -48,8 +50,13 @@ public class MovimentacaoDAO {
                 Produto produto = new Produto();
                 produto.setCodigo(rs.getInt("codigo_produto"));
                 produto.setNome(rs.getString("nome_produto"));
+
                 // Configurar a unidade do produto, se necessário
-                // produto.setUnidade(unidade);
+                Unidade unidade = new Unidade();
+                unidade.setCodigo(rs.getInt("p.unidade_id"));
+                unidade.setNome(rs.getString("u.nome"));
+                unidade.setSimbolo(rs.getString("u.sigla"));
+                produto.setUnidade(unidade);
 
                 movimentacao.setProduto(produto);
                 movimentacao.setQuantidade(rs.getInt("quantidade"));
