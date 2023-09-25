@@ -1,8 +1,12 @@
 package services;
 
+import conexao.ConexaoMySQL;
 import enums.TipoMovimento;
 import model.Movimentacao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import static enums.TipoMovimento.ENTRADA;
@@ -49,16 +53,37 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
 
         if (GerenciadorProduto.encontrarProdutoPorId(codigoProduto) != null) {
             movimentacoes.add(new Movimentacao(movimento, GerenciadorProduto.encontrarProdutoPorId(codigoProduto), quantidadeItem));
-            System.out.println("\n *** Movimentacao adicionada com sucesso! *** ");
+
+            try (Connection conexao = ConexaoMySQL.obterConexao()) {
+                MovimentacaoService movimentacaoService = new MovimentacaoService(conexao);
+                movimentacaoService.adicionarMovimentacao(new Movimentacao(movimento, GerenciadorProduto.encontrarProdutoPorId(codigoProduto), quantidadeItem));
+                System.out.println("\n *** Movimentacao adicionada com sucesso! *** ");
+            } catch (SQLException e) {
+                System.out.println("*** Erro ao adicionar movemento! *** ");
+                e.printStackTrace();
+            }
         } else {
-            System.err.println("*** Erro ao adicionar movemento! *** ");
+            System.err.println("*** Produto não encontrado! *** ");
         }
     }
 
     public static void listarMovimentacaos() {
         System.out.println("\n--- Lista de movimentacaos ---");
-        for (Movimentacao movimentacao : movimentacoes) {
-            System.out.println("# " + movimentacao.getCodigo() + " Tipo:" + movimentacao.getTipoMovimento().tipo() + " Nome: " + movimentacao.getProduto().getNome() + " Un: " + movimentacao.getProduto().getUnidade().getSimbolo() + ", Quantidade: " + movimentacao.getQuantidade());
+
+        try (Connection conexao = ConexaoMySQL.obterConexao()) {
+            MovimentacaoService movimentacaoService = new MovimentacaoService(conexao);
+
+            List<Movimentacao> movimentacoes = movimentacaoService.listarMovimentacoes();
+            for (Movimentacao movimentacao : movimentacoes) {
+                System.out.println("# " + movimentacao.getCodigo()
+                        + " Tipo:" + movimentacao.getTipoMovimento().tipo()
+                        + " Nome: " + movimentacao.getProduto().getNome()
+                        + " Un: " + movimentacao.getProduto().getUnidade().getSimbolo()
+                        + ", Quantidade: " + movimentacao.getQuantidade());
+            }
+        } catch (SQLException e) {
+            System.out.println("*** Erro ao adicionar movemento! *** ");
+            e.printStackTrace();
         }
     }
 
