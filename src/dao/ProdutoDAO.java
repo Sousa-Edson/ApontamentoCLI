@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoDAO {
-    private Connection conexao;
+    private final Connection conexao;
 
     public ProdutoDAO(Connection conexao) {
         this.conexao = conexao;
@@ -32,7 +32,7 @@ public class ProdutoDAO {
     public List<Produto> listarProdutos() throws SQLException {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT p.*, u.nome AS nome_unidade, u.sigla AS sigla_unidade FROM produtos p " +
-                "INNER JOIN unidades u ON p.unidade_id = u.id";
+                "INNER JOIN unidades u ON p.unidade_id = u.codigo";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -58,7 +58,7 @@ public class ProdutoDAO {
     // Método para encontrar um produto pelo seu código
     public Produto encontrarProdutoPorCodigo(int codigo) throws SQLException {
         String sql = "SELECT p.*, u.nome AS nome_unidade, u.sigla AS sigla_unidade FROM produtos p " +
-                "INNER JOIN unidades u ON p.unidade_id = u.id " +
+                "INNER JOIN unidades u ON p.unidade_id = u.codigo " +
                 "WHERE p.codigo = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {

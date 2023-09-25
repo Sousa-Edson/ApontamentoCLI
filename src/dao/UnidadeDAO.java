@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnidadeDAO {
-    private Connection conexao;
+    private final Connection conexao;
 
     public UnidadeDAO(Connection conexao) {
         this.conexao = conexao;
