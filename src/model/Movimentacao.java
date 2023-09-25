@@ -3,7 +3,7 @@ package model;
 import enums.TipoMovimento;
 
 public class Movimentacao {
-    private static int contador = 0;
+
     int codigo;
     TipoMovimento tipoMovimento;
     Produto produto;
@@ -12,11 +12,16 @@ public class Movimentacao {
     public Movimentacao() {
     }
 
-    public Movimentacao(TipoMovimento tipoMovimento,Produto produto, int quantidade) {
-        this.codigo = ++contador;
+
+
+    public Movimentacao(TipoMovimento tipoMovimento, Produto produto, int quantidade) {
+
         this.tipoMovimento = tipoMovimento;
         this.produto = produto;
         this.quantidade = quantidade;
+    }
+    public void setTipoMovimento(TipoMovimento tipoMovimento) {
+        this.tipoMovimento = tipoMovimento;
     }
 
     public TipoMovimento getTipoMovimento() {
