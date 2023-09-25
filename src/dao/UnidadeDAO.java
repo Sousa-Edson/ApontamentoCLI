@@ -19,7 +19,7 @@ public class UnidadeDAO {
 
     // Método para adicionar uma unidade ao banco de dados
     public void adicionarUnidade(Unidade unidade) throws SQLException {
-        String sql = "INSERT INTO Unidade (nome, sigla) VALUES (?, ?)";
+        String sql = "INSERT INTO unidades (nome, sigla) VALUES (?, ?)";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, unidade.getNome());
@@ -31,7 +31,7 @@ public class UnidadeDAO {
     // Método para listar todas as unidades do banco de dados
     public List<Unidade> listarUnidades() throws SQLException {
         List<Unidade> unidades = new ArrayList<>();
-        String sql = "SELECT * FROM Unidade";
+        String sql = "SELECT * FROM unidades";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -49,7 +49,7 @@ public class UnidadeDAO {
 
     // Método para atualizar uma unidade no banco de dados
     public void atualizarUnidade(Unidade unidade) throws SQLException {
-        String sql = "UPDATE Unidade SET nome = ?, sigla = ? WHERE id = ?";
+        String sql = "UPDATE unidades SET nome = ?, sigla = ? WHERE id = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, unidade.getNome());
@@ -61,16 +61,17 @@ public class UnidadeDAO {
 
     // Método para deletar uma unidade do banco de dados
     public void deletarUnidade(int id) throws SQLException {
-        String sql = "DELETE FROM Unidade WHERE id = ?";
+        String sql = "DELETE FROM unidades WHERE id = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         }
     }
+
     // Método para encontrar uma unidade do banco de dados
     public Unidade encontrarUnidadePorId(int id) throws SQLException {
-        String sql = "SELECT * FROM Unidade WHERE id = ?";
+        String sql = "SELECT * FROM unidades WHERE id = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);

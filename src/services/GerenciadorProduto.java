@@ -1,7 +1,10 @@
 package services;
 
+import conexao.ConexaoMySQL;
 import model.Produto;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -18,9 +21,17 @@ public class GerenciadorProduto implements GerenciadorEstoque {
         System.out.print("\nDigite o codigo da unidade:");
         int codigoUnidade = scanner.nextInt();
         scanner.nextLine();
+
         if (GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade) != null) {
-            produtos.add(new Produto(nome, GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade)));
-            System.out.println("\n *** Produto adicionada com sucesso! *** ");
+            try (Connection conexao = ConexaoMySQL.obterConexao()) {
+                ProdutoService produtoService = new ProdutoService(conexao);
+                produtoService.adicionarProduto(new Produto(nome, GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade)));
+
+                System.out.println("\n *** Produto adicionada com sucesso! *** ");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             System.err.println(" *** Erro ao adicionar produto! *** ");
         }
@@ -28,9 +39,19 @@ public class GerenciadorProduto implements GerenciadorEstoque {
 
     public static void listarProdutos() {
         System.out.println("\n--- Lista de produtos ---");
-        for (Produto produto : produtos) {
-            System.out.println("# " + produto.getCodigo() + " Nome: " + produto.getNome() + ", Un: " + produto.getUnidade().getSimbolo());
+
+        try (Connection conexao = ConexaoMySQL.obterConexao()) {
+            ProdutoService produtoService = new ProdutoService(conexao);
+            for (Produto produto : produtoService.listarProdutos()) {
+                System.out.println("# " + produto.getCodigo() + " Nome: " + produto.getNome() + ", Un: " + produto.getUnidade().getSimbolo());
+            }
+            System.out.println("\n *** Produto adicionada com sucesso! *** ");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+
     }
 
     public static void atualizarProduto() {
@@ -40,6 +61,7 @@ public class GerenciadorProduto implements GerenciadorEstoque {
         int codigo = scanner.nextInt();
 
         if (GerenciadorProduto.encontrarProdutoPorId(codigo) != null) {
+            Produto produto = GerenciadorProduto.encontrarProdutoPorId(codigo);
             scanner.nextLine();
 
             System.out.print("Digite o nome da produto:");
@@ -51,19 +73,19 @@ public class GerenciadorProduto implements GerenciadorEstoque {
             int codigoUnidade = scanner.nextInt();
 
             scanner.nextLine();
-
-            for (Produto produto : produtos) {
-                if (produto.getCodigo() == codigo) {
-
-                    if (!nome.isEmpty()) {
-                        produto.setNome(nome);
-                    }
-
-                    produto.setUnidade(GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade));
-
-                    System.out.println("\n *** Produto alterada com sucesso! *** ");
-                    break;
+            try (Connection conexao = ConexaoMySQL.obterConexao()) {
+                if (!nome.isEmpty()) {
+                    produto.setNome(nome);
                 }
+                produto.setUnidade(GerenciadorUnidade.encontrarUnidadePorId(codigoUnidade));
+                ProdutoService produtoService = new ProdutoService(conexao);
+                produtoService.atualizarProduto(produto);
+                System.out.println("# " + produto.getCodigo() + " Nome: " + produto.getNome() + ", Un: " + produto.getUnidade().getSimbolo());
+
+                System.out.println("\n *** Produto alterada com sucesso! *** ");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } else {
             System.out.println("Produto não encontrada");
@@ -74,20 +96,27 @@ public class GerenciadorProduto implements GerenciadorEstoque {
         System.out.println("\n--- Deletar Produto ---");
         System.out.print("Digite o codigo da produto: ");
         int codigo = scanner.nextInt();
-        for (Produto produto : produtos) {
-            if (produto.getCodigo() == codigo) {
-                produtos.remove(produto);
+        if (GerenciadorProduto.encontrarProdutoPorId(codigo) != null) {
+            Produto produto = GerenciadorProduto.encontrarProdutoPorId(codigo);
+
+            try (Connection conexao = ConexaoMySQL.obterConexao()) {
+                ProdutoService produtoService = new ProdutoService(conexao);
+                produtoService.deletarProdutoPorCodigo(codigo);
+                System.out.println("# " + produto.getCodigo() + " Nome: " + produto.getNome() + ", Un: " + produto.getUnidade().getSimbolo());
                 System.out.println("\n*** Codigo : " + codigo + " apagado ***");
-                break;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
 
     public static Produto encontrarProdutoPorId(int codigo) {
-        for (Produto produto : produtos) {
-            if (produto.getCodigo() == codigo) {
-                return produto;
-            }
+        try (Connection conexao = ConexaoMySQL.obterConexao()) {
+            ProdutoService produtoService = new ProdutoService(conexao);
+            return produtoService.encontrarProdutoPorCodigo(codigo);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

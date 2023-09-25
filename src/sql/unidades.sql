@@ -1,6 +1,6 @@
 -- apontamento1.Unidade definition
 
-CREATE TABLE `Unidade` (
+CREATE TABLE `unidades` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
   `sigla` varchar(10) NOT NULL,
