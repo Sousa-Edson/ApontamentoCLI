@@ -37,7 +37,7 @@ public class UnidadeDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Unidade unidade = new Unidade();
-                unidade.setCodigo(rs.getInt("id"));
+                unidade.setCodigo(rs.getInt("codigo"));
                 unidade.setNome(rs.getString("nome"));
                 unidade.setSimbolo(rs.getString("sigla"));
                 unidades.add(unidade);
