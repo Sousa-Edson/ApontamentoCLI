@@ -2,7 +2,6 @@ import menu.MenuMovimentacao;
 import menu.MenuProduto;
 import menu.MenuSaldo;
 import menu.MenuUnidade;
-import services.GerenciadorEstoque;
 
 import java.util.Scanner;
 

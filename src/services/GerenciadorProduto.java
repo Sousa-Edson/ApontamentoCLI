@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 
-public class GerenciadorProduto implements GerenciadorEstoque {
+public class GerenciadorProduto {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void adicionarProduto() {

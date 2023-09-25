@@ -13,7 +13,7 @@ import static enums.TipoMovimento.ENTRADA;
 import static enums.TipoMovimento.SAIDA;
 
 
-public class GerenciadorMovimentacao implements GerenciadorEstoque {
+public class GerenciadorMovimentacao {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void adicionarMovimentacao() {
@@ -52,8 +52,6 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
         scanner.nextLine();
 
         if (GerenciadorProduto.encontrarProdutoPorId(codigoProduto) != null) {
-            movimentacoes.add(new Movimentacao(movimento, GerenciadorProduto.encontrarProdutoPorId(codigoProduto), quantidadeItem));
-
             try (Connection conexao = ConexaoMySQL.obterConexao()) {
                 MovimentacaoService movimentacaoService = new MovimentacaoService(conexao);
                 movimentacaoService.adicionarMovimentacao(new Movimentacao(movimento, GerenciadorProduto.encontrarProdutoPorId(codigoProduto), quantidadeItem));
@@ -72,7 +70,6 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
 
         try (Connection conexao = ConexaoMySQL.obterConexao()) {
             MovimentacaoService movimentacaoService = new MovimentacaoService(conexao);
-
             List<Movimentacao> movimentacoes = movimentacaoService.listarMovimentacoes();
             for (Movimentacao movimentacao : movimentacoes) {
                 System.out.println("# " + movimentacao.getCodigo()
@@ -91,21 +88,34 @@ public class GerenciadorMovimentacao implements GerenciadorEstoque {
     public static void saldoProduto(int codigoProduto) {
         int quantidadeEntrada = 0, quantidadeSaida = 0, saldoFinal;
         System.out.println("\n--- Saldo do produto " + codigoProduto + " ---");
-        for (Movimentacao movimentacao : movimentacoes) {
-            if (movimentacao.getProduto().getCodigo() == codigoProduto) {
-                if (movimentacao.getTipoMovimento().equals(ENTRADA)) {
-                    quantidadeEntrada = quantidadeEntrada + movimentacao.getQuantidade();
-                }
-                if (movimentacao.getTipoMovimento().equals(SAIDA)) {
-                    quantidadeSaida = quantidadeSaida + movimentacao.getQuantidade();
+
+        try (Connection conexao = ConexaoMySQL.obterConexao()) {
+            MovimentacaoService movimentacaoService = new MovimentacaoService(conexao);
+            List<Movimentacao> movimentacoes = movimentacaoService.listarMovimentacoes();
+
+            for (Movimentacao movimentacao : movimentacoes) {
+                if (movimentacao.getProduto().getCodigo() == codigoProduto) {
+                    if (movimentacao.getTipoMovimento().equals(ENTRADA)) {
+                        quantidadeEntrada = quantidadeEntrada + movimentacao.getQuantidade();
+                    }
+                    if (movimentacao.getTipoMovimento().equals(SAIDA)) {
+                        quantidadeSaida = quantidadeSaida + movimentacao.getQuantidade();
+                    }
                 }
             }
+            saldoFinal = quantidadeEntrada - quantidadeSaida;
+            System.out.println("Produto: " + GerenciadorProduto.encontrarProdutoPorId(codigoProduto).getNome());
+            System.out.println("Un: " + GerenciadorProduto.encontrarProdutoPorId(codigoProduto).getUnidade().getSimbolo());
+            System.out.println("Entradas: " + quantidadeEntrada);
+            System.out.println("Saidas: " + quantidadeSaida);
+            System.out.println("Saldo final: " + saldoFinal);
+
+        } catch (SQLException e) {
+            System.out.println("*** Erro ao adicionar movemento! *** ");
+            e.printStackTrace();
         }
-        saldoFinal = quantidadeEntrada - quantidadeSaida;
-        System.out.println("Produto: " + GerenciadorProduto.encontrarProdutoPorId(codigoProduto).getNome());
-        System.out.println("Un: " + GerenciadorProduto.encontrarProdutoPorId(codigoProduto).getUnidade().getSimbolo());
-        System.out.println("Entradas: " + quantidadeEntrada);
-        System.out.println("Saidas: " + quantidadeSaida);
-        System.out.println("Saldo final: " + saldoFinal);
+
+
+
     }
 }
