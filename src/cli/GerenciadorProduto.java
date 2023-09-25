@@ -1,7 +1,8 @@
-package services;
+package cli;
 
 import conexao.ConexaoMySQL;
 import model.Produto;
+import services.ProdutoService;
 
 import java.sql.Connection;
 import java.sql.SQLException;

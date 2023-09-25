@@ -1,6 +1,6 @@
 package menu;
 
-import services.GerenciadorProduto;
+import cli.GerenciadorProduto;
 
 import java.util.Scanner;
 

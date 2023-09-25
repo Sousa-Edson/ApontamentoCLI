@@ -1,7 +1,7 @@
 package menu;
 
 
-import services.GerenciadorUnidade;
+import cli.GerenciadorUnidade;
 
 import java.sql.SQLException;
 import java.util.Scanner;

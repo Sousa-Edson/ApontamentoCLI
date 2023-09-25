@@ -1,8 +1,9 @@
-package services;
+package cli;
 
 import conexao.ConexaoMySQL;
 import enums.TipoMovimento;
 import model.Movimentacao;
+import services.MovimentacaoService;
 
 import java.sql.Connection;
 import java.sql.SQLException;

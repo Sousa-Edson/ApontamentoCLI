@@ -1,7 +1,7 @@
 package menu;
 
 
-import services.GerenciadorMovimentacao;
+import cli.GerenciadorMovimentacao;
 
 import java.util.Scanner;
 
