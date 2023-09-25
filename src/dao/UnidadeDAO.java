@@ -49,7 +49,7 @@ public class UnidadeDAO {
 
     // Método para atualizar uma unidade no banco de dados
     public void atualizarUnidade(Unidade unidade) throws SQLException {
-        String sql = "UPDATE unidades SET nome = ?, sigla = ? WHERE id = ?";
+        String sql = "UPDATE unidades SET nome = ?, sigla = ? WHERE codigo = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, unidade.getNome());
@@ -61,7 +61,7 @@ public class UnidadeDAO {
 
     // Método para deletar uma unidade do banco de dados
     public void deletarUnidade(int id) throws SQLException {
-        String sql = "DELETE FROM unidades WHERE id = ?";
+        String sql = "DELETE FROM unidades WHERE codigo = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -71,7 +71,7 @@ public class UnidadeDAO {
 
     // Método para encontrar uma unidade do banco de dados
     public Unidade encontrarUnidadePorId(int id) throws SQLException {
-        String sql = "SELECT * FROM unidades WHERE id = ?";
+        String sql = "SELECT * FROM unidades WHERE codigo = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -79,7 +79,7 @@ public class UnidadeDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Unidade unidade = new Unidade();
-                    unidade.setCodigo(rs.getInt("id"));
+                    unidade.setCodigo(rs.getInt("codigo"));
                     unidade.setNome(rs.getString("nome"));
                     unidade.setSimbolo(rs.getString("sigla"));
                     return unidade;
