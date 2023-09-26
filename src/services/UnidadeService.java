@@ -15,6 +15,7 @@ public class UnidadeService {
     }
 
     public void adicionarUnidade(Unidade unidade) throws SQLException, SQLException {
+        System.out.println("*** SALVO => "+unidade);
         unidadeDAO.adicionarUnidade(unidade);
     }
 

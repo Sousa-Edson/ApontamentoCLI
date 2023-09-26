@@ -3,10 +3,7 @@ package dao;
 
 import model.Unidade;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +15,24 @@ public class UnidadeDAO {
     }
 
     // Método para adicionar uma unidade ao banco de dados
-    public void adicionarUnidade(Unidade unidade) throws SQLException {
+    public Unidade adicionarUnidade(Unidade unidade) throws SQLException {
         String sql = "INSERT INTO unidades (nome, sigla) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, unidade.getNome());
             stmt.setString(2, unidade.getSimbolo());
             stmt.executeUpdate();
+
+            // Recupere a chave gerada pelo banco de dados
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    unidade.setCodigo(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado para o produto.");
+                }
+            }
+            return unidade;
+
         }
     }
 

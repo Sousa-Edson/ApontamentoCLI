@@ -44,8 +44,6 @@ public class GerenciadorUnidade  {
             System.out.println("ERRO: " + e);
             e.printStackTrace();
         }
-
-
     }
 
     public static void atualizarUnidade() {
