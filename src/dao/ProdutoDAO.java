@@ -3,10 +3,7 @@ package dao;
 import model.Produto;
 import model.Unidade;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +15,25 @@ public class ProdutoDAO {
     }
 
     // Método para adicionar um produto ao banco de dados
-    public void adicionarProduto(Produto produto) throws SQLException {
+    public Produto adicionarProduto(Produto produto) throws SQLException {
         String sql = "INSERT INTO produtos ( nome, unidade_id) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, produto.getNome());
             stmt.setInt(2, produto.getUnidade().getCodigo());
             stmt.executeUpdate();
+
+            // Recupere a chave gerada pelo banco de dados
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    produto.setCodigo(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado !");
+                }
+            }
+
         }
+        return produto;
     }
 
     // Método para listar todos os produtos do banco de dados
@@ -37,21 +45,10 @@ public class ProdutoDAO {
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Produto produto = new Produto();
-                produto.setCodigo(rs.getInt("codigo"));
-                produto.setNome(rs.getString("nome"));
-
-                Unidade unidade = new Unidade();
-                unidade.setCodigo(rs.getInt("unidade_id"));
-                unidade.setNome(rs.getString("nome_unidade"));
-                unidade.setSimbolo(rs.getString("sigla_unidade"));
-
-                produto.setUnidade(unidade);
-
-                produtos.add(produto);
+                produtos.add(new Produto(rs.getInt("codigo"), rs.getString("nome"),
+                        new Unidade(rs.getInt("unidade_id"), rs.getString("nome_unidade"), rs.getString("sigla_unidade"))));
             }
         }
-
         return produtos;
     }
 

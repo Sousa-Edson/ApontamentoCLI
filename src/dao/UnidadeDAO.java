@@ -28,7 +28,7 @@ public class UnidadeDAO {
                 if (generatedKeys.next()) {
                     unidade.setCodigo(generatedKeys.getInt(1));
                 } else {
-                    throw new SQLException("Falha ao obter o ID gerado para o produto.");
+                    throw new SQLException("Falha ao obter o ID gerado !");
                 }
             }
             return unidade;

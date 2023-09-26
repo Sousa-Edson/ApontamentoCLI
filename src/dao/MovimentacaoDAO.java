@@ -5,10 +5,7 @@ import model.Movimentacao;
 import model.Produto;
 import model.Unidade;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +17,28 @@ public class MovimentacaoDAO {
     }
 
     // Método para adicionar uma movimentação ao banco de dados
-    public void adicionarMovimentacao(Movimentacao movimentacao) throws SQLException {
+    public Movimentacao adicionarMovimentacao(Movimentacao movimentacao) throws SQLException {
         String sql = "INSERT INTO movimentacoes (codigo, tipo_movimento, produto_id, quantidade) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, movimentacao.getCodigo());
             stmt.setString(2, movimentacao.getTipoMovimento().toString());
             stmt.setInt(3, movimentacao.getProduto().getCodigo());
             stmt.setInt(4, movimentacao.getQuantidade());
             stmt.executeUpdate();
+
+
+            // Recupere a chave gerada pelo banco de dados
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    movimentacao.setCodigo(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado !");
+                }
+            }
+
         }
+        return movimentacao;
     }
 
     // Método para listar todas as movimentações do banco de dados

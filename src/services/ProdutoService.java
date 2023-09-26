@@ -16,6 +16,8 @@ public class ProdutoService {
 
     public void adicionarProduto(Produto produto) throws SQLException {
         produtoDAO.adicionarProduto(produto);
+        System.out.println("*** SALVO => "+produto);
+
     }
 
     public List<Produto> listarProdutos() throws SQLException {

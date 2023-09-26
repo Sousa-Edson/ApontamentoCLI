@@ -17,6 +17,11 @@ public class Produto {
         this.unidade = unidade;
     }
 
+    public Produto(int codigo, String nome, Unidade unidade) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.unidade = unidade;
+    }
 
     public int getCodigo() {
         return codigo;
