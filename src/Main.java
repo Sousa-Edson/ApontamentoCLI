@@ -12,10 +12,7 @@ public class Main {
 
 
         public static void main(String[] args) {
-
-//            GerenciadorEstoque.preencheUnidade();
-//            GerenciadorEstoque.preencheProduto();
-//            GerenciadorEstoque.preencheMovimento();
+            System.out.println("\n### Bem vindo ao ApontamentoCLI ###");
 
             boolean sair = false;
 
@@ -48,7 +45,6 @@ public class Main {
         }
 
         private static void exibirMenuPrincipal() {
-            System.out.println("\n### Bem vindo ao ApontamentoCLI ###");
             System.out.println("\n--- Menu Principal ---");
             System.out.println("1 - Unidades");
             System.out.println("2 - Produtos");
