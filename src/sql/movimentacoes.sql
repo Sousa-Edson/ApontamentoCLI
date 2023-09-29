@@ -10,7 +10,7 @@
         CONSTRAINT `movimentacoes_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`codigo`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-        -- apontamento1.movimentacoes definition
+-- apontamento1.movimentacoes definition
 
         CREATE TABLE `movimentacoes` (
           `codigo` int NOT NULL AUTO_INCREMENT,

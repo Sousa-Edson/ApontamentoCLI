@@ -8,3 +8,9 @@ CREATE TABLE `produtos` (
   KEY `unidade_id` (`unidade_id`),
   CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`unidade_id`) REFERENCES `unidades` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE produtos
+ADD CONSTRAINT fk_unidade
+FOREIGN KEY (unidade_id) REFERENCES unidades(id);
+
+
